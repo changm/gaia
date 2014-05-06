@@ -34,25 +34,12 @@ marionette(mozTestInfo.appPath + ' >', function() {
       app: app
     });
 
-    function sendOverfill() {
-      window.wrappedJSObject.mozRequestOverfill(function result(aOverfill) {
-        /*
-        console.log("Overfill is: " + aOverfill);
-        dump("Dump overfill is: " + aOverfill);
-        */
-
-        //var results = { "overfill" : aOverfill };
-        //performanceHelper.reportCustom("overfill", results);
-        //assert.ok(aOverfill <= 300, "Overfill numbers are greater than 300");
-        //var results = {};
-        //results["overfill"] = aOverfill;
-
-        marionetteScriptFinished(aOverfill);
-      });
-    }
-
     function requestOverfill() {
-      results.push(chrome.executeScript(sendOverfill));
+      results.push(
+        chrome.executeScript(
+          'window.wrappedJSObject.mozRequestOverfill(function (aOverfill) { marionetteScriptFinished(aOverfill);});'
+        )
+      );
     }
 
     performanceHelper.repeatWithDelay(function(app, next) {
