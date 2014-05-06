@@ -40,10 +40,9 @@ marionette(mozTestInfo.appPath + ' >', function() {
     }
 
     function requestOverfill() {
-      chrome.executeAsyncScript(sendOverfill, function(err, aOverfill) {
-        console.log("Console log ret val: " + aOverfill);
-        results.push(aOverfill);
-      });
+      var overfill = chrome.executeAsyncScript(sendOverfill);
+      console.log("Overfill numbers are: " + overfill);
+      results.push(overfill);
     }
 
     performanceHelper.repeatWithDelay(function(app, next) {
