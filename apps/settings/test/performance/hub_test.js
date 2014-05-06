@@ -37,7 +37,7 @@ marionette(mozTestInfo.appPath + ' >', function() {
     function requestOverfill() {
       results.push(
         chrome.executeScript(
-          'window.wrappedJSObject.mozRequestOverfill(function result(aOverfill) { marionetteScriptFinished(aOverfill);}'
+          'window.wrappedJSObject.mozRequestOverfill(function (aOverfill) { marionetteScriptFinished(aOverfill);});'
         )
       );
     }
