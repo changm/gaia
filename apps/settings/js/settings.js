@@ -243,6 +243,11 @@ var Settings = {
       window.addEventListener('keydown', this.handleSpecialKeys);
     }).bind(this));
 
+    // Need an event to tell the perf test that we finished initializing
+    // Otherwise marionnette doesn't always scroll properly.
+    setTimeout(function() {
+      PerformanceTestingHelper.dispatch('settings-finished-init');
+    });
   },
 
   // An activity can be closed either by pressing the 'X' button

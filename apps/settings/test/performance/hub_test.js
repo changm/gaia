@@ -28,9 +28,11 @@ marionette(mozTestInfo.appPath + ' >', function() {
 
   test('Overfill Settings Scroll >', function() {
     var results = [];
+    var lastEvent = 'settings-finished-init';
 
     var performanceHelper = new PerformanceHelper({
-      app: app
+      app: app,
+      lastEvent: lastEvent
     });
 
     function sendOverfill() {
@@ -49,19 +51,22 @@ marionette(mozTestInfo.appPath + ' >', function() {
       var waitForBody = true;
       app.launch(waitForBody);
 
-      app.element('wifiSelector', function(err, wifiSubpanel) {
-        var width = wifiSubpanel.size()['width'];
-        var height = wifiSubpanel.size()['height'];
+      performanceHelper.waitForPerfEvent(function() {
 
-        // Scrolling should happen here
-        actions.flick(wifiSubpanel, width / 2, height / 2, width / 2, -400, 200);
-        actions.perform(requestOverfill);
-        app.close();
-      });
-    });
+        app.element('wifiSelector', function(err, wifiSubpanel) {
+          var width = wifiSubpanel.size()['width'];
+          var height = wifiSubpanel.size()['height'];
+
+          // Scrolling should happen here
+          actions.flick(wifiSubpanel, width / 2, height / 2, width / 2, -400, 200);
+          actions.perform(requestOverfill);
+          app.close();
+        });
+      }); // end wait for perf event
+
+     });
 
     console.log("Console log report duration");
     PerformanceHelper.reportDuration(results, "FakeResults");
-
   });
 });
